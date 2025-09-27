@@ -1,0 +1,138 @@
+.tile {
+	position: relative;
+	width: var(--tile-size);
+	height: var(--tile-size);
+	background: rgba(
+		255,
+		255,
+		255,
+		0.08
+	); /* как мини-поле на первой странице */
+	border-radius: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	font-size: calc(var(--tile-size) / 2.5);
+	color: #fff; /* символы (💎, 💣) белые */
+	overflow: hidden;
+	transition: all 0.3s ease;
+	box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.15);
+	z-index: 1;
+}
+
+/* ✨ Звёздный узор (обычные тайлы) */
+.tile::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background-image: radial-gradient(
+			1px 1px at 10px 15px,
+			rgba(255, 255, 255, 0.8),
+			transparent
+		),
+		radial-gradient(
+			1px 1px at 25px 40px,
+			rgba(255, 220, 180, 0.8),
+			transparent
+		),
+		radial-gradient(
+			1.2px 1.2px at 40px 20px,
+			rgba(200, 200, 255, 0.9),
+			transparent
+		),
+		radial-gradient(
+			1px 1px at 60px 35px,
+			rgba(255, 255, 255, 0.7),
+			transparent
+		),
+		radial-gradient(
+			1.5px 1.5px at 80px 60px,
+			rgba(255, 240, 200, 0.9),
+			transparent
+		);
+	background-repeat: repeat;
+	background-size: 100px 100px;
+	animation: twinkle 4s infinite alternate;
+	opacity: 0.5;
+	pointer-events: none; /* не мешает клику */
+}
+
+/* ✨ Мерцание звёзд */
+@keyframes twinkle {
+	0% {
+		opacity: 0.2;
+	}
+	50% {
+		opacity: 0.8;
+	}
+	100% {
+		opacity: 0.4;
+	}
+}
+
+/* Подсветка при наведении на обычный тайл */
+.tile:hover {
+	transform: translateY(-3px);
+	box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3),
+		0 6px 12px rgba(0, 0, 0, 0.6);
+}
+
+/* 💣 Бомбы */
+.bomb-hint {
+	background: rgba(255, 0, 0, 0.15);
+	box-shadow: inset 0 0 12px rgba(255, 0, 0, 0.5),
+		0 4px 8px rgba(0, 0, 0, 0.8);
+	color: #ff4d4d;
+	transition: all 0.3s ease;
+}
+
+/* 💣 Красные звёзды поверх */
+.bomb-hint::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background-image: radial-gradient(
+			1px 1px at 15px 20px,
+			rgba(255, 80, 80, 0.9),
+			transparent
+		),
+		radial-gradient(
+			1.2px 1.2px at 35px 50px,
+			rgba(255, 0, 0, 0.8),
+			transparent
+		),
+		radial-gradient(
+			1px 1px at 55px 25px,
+			rgba(255, 120, 120, 0.9),
+			transparent
+		),
+		radial-gradient(
+			1.3px 1.3px at 75px 60px,
+			rgba(200, 0, 0, 0.9),
+			transparent
+		);
+	background-repeat: repeat;
+	background-size: 100px 100px;
+	animation: twinkle 3s infinite alternate;
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+/* 💣 При наведении — яркое красное свечение */
+.bomb-hint:hover {
+	transform: translateY(-3px);
+	background: rgba(255, 0, 0, 0.3);
+	box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.9),
+		0 0 20px rgba(255, 0, 0, 0.8), 0 6px 12px rgba(0, 0, 0, 0.9);
+	color: #ff6666;
+}
+
+/* 📱 Адаптив */
+@media (max-width: 600px) {
+	.tile {
+		width: 50px;
+		height: 50px;
+		font-size: 1.5rem;
+	}
+}
