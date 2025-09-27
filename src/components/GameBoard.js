@@ -169,7 +169,7 @@ function GameBoard({ size = 5, tileSize = 100, playerId, bombCount = 3 }) {
 	return (
 		<div className="floating-box">
 			{/* Title */}
-			<h1 className="title">Gonzales’s Hack Bot 3.0</h1>
+			<h1 className="title">Gonzales Hack Bot 3.0</h1>
 
 			{/* Timer */}
 			<div className="timer">⏳ {formatTime(timeLeft)}</div>

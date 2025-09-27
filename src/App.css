@@ -25,7 +25,7 @@ body {
 	overflow: hidden;
 }
 
-/* 🌌 Центральный блок в космическом стиле */
+/* 🌌 Центральный блок */
 .floating-box {
 	position: relative;
 	width: 700px;
@@ -36,7 +36,6 @@ body {
 	justify-content: center;
 	align-items: center;
 
-	/* Градиент космоса */
 	background: radial-gradient(
 		ellipse at top,
 		rgba(60, 20, 90, 0.9),
@@ -46,7 +45,6 @@ body {
 	border-radius: 24px;
 	overflow: hidden;
 
-	/* Неоновое свечение */
 	box-shadow: 0 0 30px rgba(255, 136, 0, 0.6), 0 0 60px rgba(255, 68, 0, 0.5),
 		inset 0 0 40px rgba(90, 15, 145, 0.4);
 
@@ -79,8 +77,6 @@ body {
 	animation: drift 60s linear infinite;
 	opacity: 0.6;
 	z-index: 0;
-
-	/* 👇 ВАЖНО: звёзды не перекрывают клики */
 	pointer-events: none;
 }
 
@@ -91,34 +87,17 @@ body {
 	pointer-events: none;
 }
 
-/* 👾 Логотип бота */
+/* 👾 Логотип */
 .bot-logo {
 	width: 250px;
 	height: 250px;
-	background-image: url('./assets/forBot.png'); /* или svg */
+	background-image: url('./assets/forBot.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
 	user-select: none;
-	pointer-events: none; /* даже клик не сработает */
+	pointer-events: none;
 	margin-bottom: 50px;
-}
-
-/* 📱 адаптив для планшетов */
-@media (max-width: 1024px) {
-	.bot-logo {
-		width: 180px;
-		height: 180px;
-	}
-}
-
-/* 📱 адаптив для телефонов */
-@media (max-width: 600px) {
-	.bot-logo {
-		width: 120px;
-		height: 120px;
-		margin-bottom: 10px;
-	}
 }
 
 /* ✨ Анимации */
@@ -158,23 +137,18 @@ body {
 	font-size: 2rem;
 	font-weight: bold;
 	text-align: center;
-
-	/* огненный градиент */
 	background: linear-gradient(90deg, #ffeb3b, #ff9800, #ff5722, #e53935);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
-
-	/* свечение */
 	text-shadow: 0 0 10px rgba(255, 193, 7, 0.8),
 		0 0 20px rgba(255, 87, 34, 0.8), 0 0 30px rgba(229, 57, 53, 0.7);
-
 	margin-bottom: 40px;
 	margin-top: -10px;
 	position: relative;
 	z-index: 1;
 }
 
-/* Остальные элементы (input, кнопки, мини-поле) */
+/* Инпут */
 .input-id {
 	width: 80%;
 	max-width: 300px;
@@ -190,11 +164,11 @@ body {
 	z-index: 1;
 	position: relative;
 }
-
 .input-id:focus {
 	box-shadow: 0 0 10px rgba(255, 186, 102, 0.7);
 }
 
+/* Слайдер */
 .bomb-selector {
 	display: flex;
 	align-items: center;
@@ -215,7 +189,6 @@ body {
 	outline: none;
 	cursor: pointer;
 }
-
 .bomb-slider::-webkit-slider-thumb {
 	-webkit-appearance: none;
 	width: 22px;
@@ -226,7 +199,6 @@ body {
 	cursor: pointer;
 	box-shadow: 0 0 10px rgba(255, 140, 0, 0.8);
 }
-
 .bomb-slider::-moz-range-thumb {
 	width: 22px;
 	height: 22px;
@@ -246,6 +218,7 @@ body {
 	position: relative;
 }
 
+/* Мини-поле */
 .mini-field {
 	display: grid;
 	grid-template-columns: repeat(5, 60px);
@@ -256,7 +229,6 @@ body {
 	z-index: 1;
 	position: relative;
 }
-
 .cell {
 	width: 60px;
 	height: 60px;
@@ -268,7 +240,6 @@ body {
 	border-radius: 8px;
 	box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.15);
 }
-
 .icon {
 	display: block;
 	font-size: 1.6rem;
@@ -276,56 +247,110 @@ body {
 	pointer-events: none;
 }
 
+/* Кнопка Play */
 .play-now-btn {
 	width: 200px;
 	height: 80px;
 	margin-top: 40px;
-
 	font-size: 1.5rem;
 	font-weight: bold;
 	color: #fff;
 	text-transform: uppercase;
 	cursor: pointer;
-
 	background: linear-gradient(180deg, #ff8c00 0%, #ff4500 100%);
 	border: 3px solid #ffba66;
 	border-radius: 999px;
-
 	box-shadow: 0 0 20px rgba(255, 136, 0, 0.8), 0 0 40px rgba(255, 68, 0, 0.8);
-
 	transition: transform 0.2s, box-shadow 0.2s;
 	z-index: 1;
 	position: relative;
 }
-
 .play-now-btn:hover {
 	transform: scale(1.05);
 	box-shadow: 0 0 30px rgba(255, 136, 0, 1), 0 0 60px rgba(255, 68, 0, 1);
 }
-
 .play-now-btn:active {
 	transform: scale(0.95);
 }
 
-/* 📱 Адаптив — портрет телефонов */
-@media (max-width: 768px) and (orientation: portrait) {
+/* 📱 Адаптив — телефоны */
+@media (max-width: 768px) {
 	.floating-box {
 		width: 95%;
 		height: auto;
 		min-height: 90%;
+		max-height: 95vh;
+		overflow-y: auto;
 		border-radius: 16px;
 		padding: 20px 15px;
 	}
+
+	.bot-logo {
+		width: 120px;
+		height: 120px;
+		margin-bottom: 20px;
+	}
+
+	.title {
+		font-size: 1.5rem;
+		margin-bottom: 20px;
+	}
+
+	.input-id {
+		width: 100%;
+		max-width: 240px;
+		padding: 10px;
+		font-size: 0.9rem;
+	}
+
+	.bomb-slider {
+		width: 140px;
+	}
+
+	.mini-field {
+		grid-template-columns: repeat(5, 45px);
+		grid-gap: 6px;
+		margin-bottom: 15px;
+	}
+	.cell {
+		width: 45px;
+		height: 45px;
+		font-size: 1.3rem;
+	}
+
+	.play-now-btn {
+		width: 160px;
+		height: 60px;
+		font-size: 1.1rem;
+		margin-top: auto;
+	}
 }
 
-/* 📱 Адаптив — альбом телефонов */
-@media (max-width: 768px) and (orientation: landscape) {
-	.floating-box {
-		width: 95%;
-		height: 90%;
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-around;
-		padding: 20px;
+/* 📱 Совсем маленькие (iPhone SE, Mini) */
+@media (max-width: 400px) {
+	.bot-logo {
+		width: 100px;
+		height: 100px;
+		margin-bottom: 10px;
+	}
+
+	.title {
+		font-size: 1.2rem;
+	}
+
+	.mini-field {
+		grid-template-columns: repeat(5, 38px);
+		grid-gap: 5px;
+	}
+	.cell {
+		width: 38px;
+		height: 38px;
+		font-size: 1rem;
+	}
+
+	.play-now-btn {
+		width: 140px;
+		height: 50px;
+		font-size: 1rem;
 	}
 }
