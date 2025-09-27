@@ -101,6 +101,7 @@ body {
 	background-position: center;
 	user-select: none;
 	pointer-events: none; /* даже клик не сработает */
+	margin-bottom: 50px;
 }
 
 /* 📱 адаптив для планшетов */
