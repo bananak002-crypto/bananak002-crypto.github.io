@@ -8,10 +8,12 @@ function GameBoard({ size = 5, tileSize = 100, playerId, bombCount = 3 }) {
 	const [gameOver, setGameOver] = useState(false);
 	const [win, setWin] = useState(false);
 	const [tiles, setTiles] = useState([]);
-	const [timeLeft, setTimeLeft] = useState(210); // 3.5 минуты (210 секунд)
-	const [loseReason, setLoseReason] = useState(''); // "bomb" | "time"
+	const [timeLeft, setTimeLeft] = useState(210); // 3.5 minutes
+	const [loseReason, setLoseReason] = useState('');
+	const [cooldown, setCooldown] = useState(0); // cooldown for button
+	const [popupMessage, setPopupMessage] = useState(''); // custom popup
 
-	// создаём массив клеток
+	// init tiles
 	const initTiles = () => {
 		return Array.from({ length: totalTiles }, () => ({
 			type: 'empty',
@@ -19,7 +21,7 @@ function GameBoard({ size = 5, tileSize = 100, playerId, bombCount = 3 }) {
 		}));
 	};
 
-	// ставим N бомб случайно
+	// place bombs
 	const placeBombs = (arr, count) => {
 		let newTiles = [...arr];
 		let bombsPlaced = 0;
@@ -63,10 +65,18 @@ function GameBoard({ size = 5, tileSize = 100, playerId, bombCount = 3 }) {
 				handleTimeout();
 			}
 		}
+
+		const nextAvailable = localStorage.getItem('nextSignalTime');
+		if (nextAvailable) {
+			const remainingCd = Math.floor(
+				(parseInt(nextAvailable, 10) - Date.now()) / 1000
+			);
+			if (remainingCd > 0) setCooldown(remainingCd);
+		}
 		// eslint-disable-next-line
 	}, []);
 
-	// Таймер обратного отсчета
+	// countdown timer
 	useEffect(() => {
 		if (gameOver || win) return;
 
@@ -84,6 +94,22 @@ function GameBoard({ size = 5, tileSize = 100, playerId, bombCount = 3 }) {
 		return () => clearInterval(timer);
 	}, [gameOver, win]);
 
+	// cooldown timer
+	useEffect(() => {
+		if (cooldown > 0) {
+			const cdTimer = setInterval(() => {
+				setCooldown((prev) => {
+					if (prev <= 1) {
+						localStorage.removeItem('nextSignalTime');
+						return 0;
+					}
+					return prev - 1;
+				});
+			}, 1000);
+			return () => clearInterval(cdTimer);
+		}
+	}, [cooldown]);
+
 	const handleClick = (index) => {
 		if (gameOver || win || tiles[index].revealed) return;
 
@@ -96,16 +122,13 @@ function GameBoard({ size = 5, tileSize = 100, playerId, bombCount = 3 }) {
 			setGameOver(true);
 			setLoseReason('bomb');
 			localStorage.clear();
-			setTimeout(() => {
-				window.location.reload();
-			}, 1500);
+			setPopupMessage('💥 Bomb! Game Over');
 			return;
 		}
 
 		setTiles(newTiles);
 		localStorage.setItem('tiles', JSON.stringify(newTiles));
 
-		// Проверка победы
 		const safeTiles =
 			totalTiles - newTiles.filter((t) => t.type === 'bomb').length;
 		const openedSafeTiles = newTiles.filter(
@@ -117,7 +140,6 @@ function GameBoard({ size = 5, tileSize = 100, playerId, bombCount = 3 }) {
 		}
 	};
 
-	// форматируем таймер (MM:SS)
 	const formatTime = (seconds) => {
 		const m = Math.floor(seconds / 60)
 			.toString()
@@ -126,39 +148,36 @@ function GameBoard({ size = 5, tileSize = 100, playerId, bombCount = 3 }) {
 		return `${m}:${s}`;
 	};
 
-	// обработка конца таймера → возврат на первую страницу
 	const handleTimeout = () => {
 		setGameOver(true);
 		setLoseReason('time');
 		localStorage.clear();
-		setTimeout(() => {
-			window.location.reload();
-		}, 2000);
+		setPopupMessage('⌛ Signal expired!');
+	};
+
+	const handleGenerateSignal = () => {
+		setPopupMessage('🔔 New signal generated!');
+		const nextTime = Date.now() + 60000;
+		localStorage.setItem('nextSignalTime', nextTime.toString());
+		setCooldown(60);
+
+		startNewGame();
+		setTimeLeft(210);
+		localStorage.setItem('startTime', Date.now().toString());
 	};
 
 	return (
 		<div className="floating-box">
-			{/* 🔥 Заголовок */}
+			{/* Title */}
 			<h1 className="title">Gonzales’s Hack Bot 3.0</h1>
 
-			{/* Таймер */}
+			{/* Timer */}
 			<div className="timer">⏳ {formatTime(timeLeft)}</div>
-
-			{gameOver && (
-				<div className="overlay lose">
-					<div>
-						{loseReason === 'bomb' && (
-							<p>💥 Бомба! Игра окончена</p>
-						)}
-						{loseReason === 'time' && <p>⌛ Время вышло!</p>}
-					</div>
-				</div>
-			)}
 
 			{win && (
 				<div className="overlay win">
 					<div>
-						<p>🎉 Победа!</p>
+						<p>🎉 Victory!</p>
 						<button
 							className="restart-btn"
 							onClick={() => {
@@ -170,13 +189,13 @@ function GameBoard({ size = 5, tileSize = 100, playerId, bombCount = 3 }) {
 								);
 							}}
 						>
-							🔄 Новая игра
+							🔄 New Game
 						</button>
 					</div>
 				</div>
 			)}
 
-			{/* Игровое поле */}
+			{/* Board */}
 			<div
 				className="board"
 				style={{
@@ -185,16 +204,31 @@ function GameBoard({ size = 5, tileSize = 100, playerId, bombCount = 3 }) {
 				}}
 			>
 				{tiles.map((tile, i) => (
-					<GemTile
-						key={i}
-						tile={tile}
-						// onClick={() => handleClick(i)}
-					/>
+					<GemTile key={i} tile={tile} />
 				))}
 			</div>
 
-			{/* ID игрока */}
+			{/* Player ID */}
 			<div className="player-id">ID: {playerId}</div>
+
+			{/* Generate Signal Button */}
+			<button
+				className="generate-btn"
+				onClick={handleGenerateSignal}
+				disabled={cooldown > 0}
+			>
+				{cooldown > 0 ? `Wait ${cooldown}s` : 'Generate New Signal'}
+			</button>
+
+			{/* Custom Popup */}
+			{popupMessage && (
+				<div className="popup">
+					<div className="popup-content">
+						<p>{popupMessage}</p>
+						<button onClick={() => setPopupMessage('')}>OK</button>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }

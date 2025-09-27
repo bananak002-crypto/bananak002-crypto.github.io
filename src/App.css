@@ -53,6 +53,7 @@ body {
 	padding: 30px 20px;
 	animation: floatBoxGlow 6s infinite alternate ease-in-out;
 }
+
 .play-now-btn:disabled {
 	opacity: 0.4;
 	cursor: not-allowed;
@@ -87,7 +88,36 @@ body {
 	animation: drift 100s linear infinite reverse, twinkle 3s infinite alternate;
 	opacity: 0.9;
 	z-index: 0;
-	pointer-events: none; /* 👈 добавляем */
+	pointer-events: none;
+}
+
+/* 👾 Логотип бота */
+.bot-logo {
+	width: 250px;
+	height: 250px;
+	background-image: url('./assets/forBot.png'); /* или svg */
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	user-select: none;
+	pointer-events: none; /* даже клик не сработает */
+}
+
+/* 📱 адаптив для планшетов */
+@media (max-width: 1024px) {
+	.bot-logo {
+		width: 180px;
+		height: 180px;
+	}
+}
+
+/* 📱 адаптив для телефонов */
+@media (max-width: 600px) {
+	.bot-logo {
+		width: 120px;
+		height: 120px;
+		margin-bottom: 10px;
+	}
 }
 
 /* ✨ Анимации */
@@ -143,7 +173,7 @@ body {
 	z-index: 1;
 }
 
-/* Остальные элементы (input, кнопки, мини-поле) остаются как были */
+/* Остальные элементы (input, кнопки, мини-поле) */
 .input-id {
 	width: 80%;
 	max-width: 300px;
@@ -195,6 +225,7 @@ body {
 	cursor: pointer;
 	box-shadow: 0 0 10px rgba(255, 140, 0, 0.8);
 }
+
 .bomb-slider::-moz-range-thumb {
 	width: 22px;
 	height: 22px;

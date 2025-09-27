@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import GameBoard from './components/GameBoard.js';
+import botLogo from './assets/forBot.png'; // 👈 импорт логотипа
 
 function App() {
 	const [started, setStarted] = useState(false);
@@ -69,6 +70,15 @@ function App() {
 			{!started ? (
 				<div className="welcome">
 					<div className="floating-box">
+						{/* 👇 Логотип-бот в шапке */}
+						<img
+							src={botLogo}
+							alt=""
+							className="bot-logo"
+							draggable="false"
+							onContextMenu={(e) => e.preventDefault()}
+						/>
+
 						{/* Левая часть */}
 						<div className="left-panel">
 							<h1 className="title">Gonzales’s Hack Bot 3.0</h1>
@@ -119,7 +129,7 @@ function App() {
 							<button
 								className="play-now-btn"
 								onClick={handleStart}
-								disabled={!isValidId} // 👈 кнопка заблокирована, пока ID невалидный
+								disabled={!isValidId}
 							>
 								PLAY NOW
 							</button>

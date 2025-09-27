@@ -4,12 +4,12 @@ import '../styles/GemTile.css';
 function GemTile({ tile, onClick }) {
 	let content = '';
 
-	if (tile.revealed) {
-		if (tile.type === 'bomb') content = '💣';
-		else content = '💎';
+	if (tile.type === 'bomb') {
+		content = '💣'; // always show bombs
+	} else if (tile.revealed) {
+		content = '💎';
 	}
 
-	// Если клетка — бомба, подсвечиваем
 	const extraClass = tile.type === 'bomb' ? 'bomb-hint' : '';
 
 	return (
