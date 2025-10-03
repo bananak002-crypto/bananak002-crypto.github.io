@@ -81,7 +81,7 @@ function App() {
 
 						{/* Левая часть */}
 						<div className="left-panel">
-							<h1 className="title">Gonzales Hack Bot 3.0</h1>
+							<h1 className="title">Hack Bot 3.0</h1>
 							<input
 								type="text"
 								className="input-id"
