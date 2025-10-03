@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import '../styles/GameBoard.css';
 import GemTile from './GemTile';
 
-function GameBoard({ size = 5, tileSize = 100, playerId, bombCount = 3 }) {
+function GameBoard({ size = 5, tileSize = 100, playerId, bombCount }) {
 	const totalTiles = size * size;
 
 	const [gameOver, setGameOver] = useState(false);
 	const [win, setWin] = useState(false);
 	const [tiles, setTiles] = useState([]);
-	const [timeLeft, setTimeLeft] = useState(210); // 3.5 minutes
+	const [timeLeft, setTimeLeft] = useState(10); // 3.5 minutes
 	const [loseReason, setLoseReason] = useState('');
 	const [cooldown, setCooldown] = useState(0); // cooldown for button
 	const [popupMessage, setPopupMessage] = useState(''); // custom popup
@@ -58,7 +58,7 @@ function GameBoard({ size = 5, tileSize = 100, playerId, bombCount = 3 }) {
 			const elapsed = Math.floor(
 				(Date.now() - parseInt(savedStartTime, 10)) / 1000
 			);
-			const remaining = 210 - elapsed;
+			const remaining = 10 - elapsed;
 			if (remaining > 0) {
 				setTimeLeft(remaining);
 			} else {
@@ -162,7 +162,7 @@ function GameBoard({ size = 5, tileSize = 100, playerId, bombCount = 3 }) {
 		setCooldown(60);
 
 		startNewGame();
-		setTimeLeft(210);
+		setTimeLeft(10);
 		localStorage.setItem('startTime', Date.now().toString());
 	};
 
@@ -182,7 +182,7 @@ function GameBoard({ size = 5, tileSize = 100, playerId, bombCount = 3 }) {
 							className="restart-btn"
 							onClick={() => {
 								startNewGame();
-								setTimeLeft(210);
+								setTimeLeft(10);
 								localStorage.setItem(
 									'startTime',
 									Date.now().toString()

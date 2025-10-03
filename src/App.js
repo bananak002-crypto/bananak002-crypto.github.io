@@ -6,7 +6,7 @@ import botLogo from './assets/forBot.png'; // 👈 импорт логотипа
 function App() {
 	const [started, setStarted] = useState(false);
 	const [playerId, setPlayerId] = useState('');
-	const [bombCount, setBombCount] = useState(3);
+	const [bombCount, setBombCount] = useState(2);
 	const [miniField, setMiniField] = useState([]);
 
 	// проверяем localStorage при загрузке
@@ -99,7 +99,7 @@ function App() {
 							<div className="bomb-selector">
 								<input
 									type="range"
-									min="1"
+									min="2"
 									max="3"
 									value={bombCount}
 									className="bomb-slider"
